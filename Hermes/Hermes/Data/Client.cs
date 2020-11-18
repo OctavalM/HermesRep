@@ -10,9 +10,9 @@
 namespace Hermes.Data
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
-
+    using System.Collections.Generic;
+    
     public partial class Client
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -44,7 +44,6 @@ namespace Hermes.Data
                 return Visit.OrderBy(x => x.DateVisit).LastOrDefault().DateVisit;
             }
         }
-
         public virtual Gender Gender { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClientTag> ClientTag { get; set; }

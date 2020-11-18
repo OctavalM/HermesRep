@@ -107,11 +107,8 @@ namespace Hermes.Pages
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
             EmailAddressAttribute emailAddressAttribute = new EmailAddressAttribute();
-            Regex regex = new Regex(@"[+7|8]\([0-9]{3}\)[0-9]{3}\-[0-9]{2}\-[0-9]{2}$");
-            Match matchTelephone = null;
-
-            if (TelephoneTB.Text != null)
-                matchTelephone = regex.Match(TelephoneTB.Text);
+             Regex regex = new Regex(@"[+7|8]\([0-9]{3}\)[0-9]{3}\-[0-9]{2}\-[0-9]{2}$");
+            
 
             StringBuilder error = new StringBuilder();
 
@@ -119,6 +116,8 @@ namespace Hermes.Pages
                 error.AppendLine("Введите имя клиента.");
             if (string.IsNullOrWhiteSpace(contextClient.Surname))
                 error.AppendLine("Введите фамилию клиента.");
+            if (!(Regex.IsMatch(contextClient.Surname, "^[А-Я]{1}[а-я]/-[А-Я]{1}[а-я]$")))
+                error.AppendLine("Email введен неправильно.");
             if (string.IsNullOrWhiteSpace(contextClient.Patronymic))
                 error.AppendLine("Введите отчество клиента.");
             if (string.IsNullOrWhiteSpace(contextClient.Email))
@@ -127,8 +126,8 @@ namespace Hermes.Pages
                 error.AppendLine("Email введен неправильно.");
             if (string.IsNullOrWhiteSpace(contextClient.PhoneNumber))
                 error.AppendLine("Введите номер телефона клиента.");
-            if (!(matchTelephone.Success))
-                error.AppendLine("Номер телефона не соответствует формату +7(XXX)XXX-XX-XX или 8(XXX)XXX-XX-XX.");
+            //if (!(matchTelephone.Success))
+                //error.AppendLine("Номер телефона не соответствует формату +7(XXX)XXX-XX-XX или 8(XXX)XXX-XX-XX.");
             if (contextClient.BirthDate == null)
                 error.AppendLine("Выберите дату рождения клиента.");
             if (contextClient.Gender == null)

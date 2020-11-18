@@ -168,13 +168,14 @@ namespace Hermes.Pages
 
             if (selectedClient == null)
                 return;
+            
 
+        
             if (MessageBox.Show("Вы действительно хотите удалить информацию о клиенте ?", "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 int isVisit = VideoRentalEntities.GetContext().Visit.Where(x => x.ClientId == selectedClient.ClientId).Count();
-                int isClientTag = VideoRentalEntities.GetContext().ClientTag.Where(x => x.ClientId == selectedClient.ClientId).Count();
-
-                if (isVisit == 0 && isClientTag == 0)
+                
+                if (isVisit == 0)
                 {
                     VideoRentalEntities.GetContext().Client.Remove(selectedClient);
                     VideoRentalEntities.GetContext().SaveChanges();
@@ -310,6 +311,9 @@ namespace Hermes.Pages
             }
         }
 
-        
+        private void StatBtn_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new TagsDiagram());
+        }
     }
 }

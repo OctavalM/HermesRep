@@ -83,7 +83,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ClientTag_Client">
-          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Client" Type="Self.Client" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="ClientTag" Type="Self.ClientTag" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Client">
@@ -258,7 +260,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ClientTag_Client">
-          <End Type="VideoRentalModel.Client" Role="Client" Multiplicity="1" />
+          <End Type="VideoRentalModel.Client" Role="Client" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="VideoRentalModel.ClientTag" Role="ClientTag" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Client">
@@ -293,7 +297,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
