@@ -21,11 +21,14 @@ namespace Hermes.Pages
     /// </summary>
     public partial class VisitsPage : Page
     {
-        public VisitsPage()
+        private Client contextClient = new Client();
+
+        public VisitsPage(Client postClient)
         {
             InitializeComponent();
-            VisitsDG.ItemsSource = VideoRentalEntities.GetContext().Visit.ToList();
-
+            contextClient = postClient;
+            DataContext = contextClient;
+            VisitsDG.ItemsSource = VideoRentalEntities.GetContext().Visit.Where(x => x.ClientId == contextClient.ClientId).ToList();
         } 
 
         private void DayCB_SelectionChanged(object sender, SelectionChangedEventArgs e)

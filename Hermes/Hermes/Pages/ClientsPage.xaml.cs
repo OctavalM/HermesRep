@@ -1,4 +1,4 @@
-﻿using Hermes.Data;
+﻿  using Hermes.Data;
 using Hermes.MyTools;
 using System;
 using System.Collections.Generic;
@@ -26,33 +26,14 @@ namespace Hermes.Pages
         private int numberRecord;
         private enum pagingMode { Next = 1, Previous = 2, PageCountChange = 3 };
         int pageIndex = 1;
-
         public ClientsPage()
         {
             InitializeComponent();
-        }
-
-        private void Page_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            if (Visibility == Visibility.Visible)
-            {
-                VideoRentalEntities.GetContext().ChangeTracker.Entries().ToList().ForEach(x => x.Reload());
-
-                GenderCB.ItemsSource = Tools.CreateComboBox(VideoRentalEntities.GetContext().Gender.ToList(), new Gender() { GenderName = "Все" });
-                GenderCB.SelectedIndex = 0;
-
-                NumberRecordCB.ItemsSource = new List<string> { "Все", "10", "50", "200" };
-                NumberRecordCB.SelectedIndex = 0; 
-                 
-                ClientsDG.ItemsSource = null;
-                ClientsDG.ItemsSource = VideoRentalEntities.GetContext().Client.ToList();
-                CountRecTB.Text = $"{ClientsDG.Items.Count} из {ClientsDG.Items.Count}";
-            }
         } 
 
         private void GenderCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            RefreshPagesDataGrid();
+           
         }
 
         private void NameTB_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -149,17 +130,20 @@ namespace Hermes.Pages
 
         private void AddBtn_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new AddEditClientPage(new Client { BirthDate = DateTime.Now }));
+            AddEditClientPage addEditClient = new AddEditClientPage(new Client { BirthDate = DateTime.Now });
+            addEditClient.TitlePageTB.Text = "Добавление клиента";
+            NavigationService.Navigate(addEditClient);
         }
 
         private void EditBtn_Click(object sender, RoutedEventArgs e)
         {
             var selectedClient = ClientsDG.SelectedItem as Client;
+            AddEditClientPage addEditClient = new AddEditClientPage(selectedClient);
+            addEditClient.TitlePageTB.Text = "Редактирование данных клиента";
 
-            if (selectedClient == null)
-                return;
+            
 
-            NavigationService.Navigate(new AddEditClientPage(selectedClient));
+            NavigationService.Navigate(addEditClient);
         }
 
         private void DeleteBtn_Click(object sender, RoutedEventArgs e)
@@ -168,8 +152,6 @@ namespace Hermes.Pages
 
             if (selectedClient == null)
                 return;
-            
-
         
             if (MessageBox.Show("Вы действительно хотите удалить информацию о клиенте ?", "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
@@ -188,7 +170,12 @@ namespace Hermes.Pages
 
         private void VisitsBtn_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new VisitsPage());
+            var selectedClient = ClientsDG.SelectedItem as Client;
+
+            if (selectedClient == null)
+                return;
+
+            NavigationService.Navigate(new VisitsPage(selectedClient));
         }
 
         private void RefreshPagesDataGrid()
@@ -206,7 +193,6 @@ namespace Hermes.Pages
             var patronymic = PatronymicTB.Text;
             var email = EmailTB.Text;
             var telephone = TelephoneTB.Text;
-
 
             if (GenderCB.SelectedIndex > 0)
                 filteredClients = filteredClients.Where(x => x.GenderId == selectedGender.GenderId).ToList();
@@ -239,20 +225,19 @@ namespace Hermes.Pages
             {
                 case (int)pagingMode.Next:
                 PreviousBtn.IsEnabled = true;
-
-                if (filteredClients.Count >= (pageIndex * numberRecord))
+                if (filteredClients.Count >= pageIndex * numberRecord)
                 {
                     if (filteredClients.Skip(pageIndex * numberRecord).Take(numberRecord).Count() == 0)
                     {
                         ClientsDG.ItemsSource = null;
-                        ClientsDG.ItemsSource = filteredClients.Skip((pageIndex * numberRecord) - numberRecord).Take(numberRecord);
-                        count = (pageIndex * numberRecord) + (filteredClients.Skip(pageIndex * numberRecord).Take(numberRecord)).Count();
+                        ClientsDG.ItemsSource = filteredClients.Skip(pageIndex * numberRecord - numberRecord).Take(numberRecord);
+                        count = pageIndex * numberRecord + filteredClients.Skip(pageIndex * numberRecord).Take(numberRecord).Count();
                     }
                     else
                     {
                         ClientsDG.ItemsSource = null;
                         ClientsDG.ItemsSource = filteredClients.Skip(pageIndex * numberRecord).Take(numberRecord);
-                        count = (pageIndex * numberRecord) + (filteredClients.Skip(pageIndex * numberRecord).Take(numberRecord)).Count();
+                        count = pageIndex * numberRecord + filteredClients.Skip(pageIndex * numberRecord).Take(numberRecord).Count();
                         pageIndex++;
                     }
 
@@ -303,17 +288,39 @@ namespace Hermes.Pages
                 {
                     numberRecord = Convert.ToInt32(NumberRecordCB.SelectedItem);
                     ClientsDG.ItemsSource = filteredClients.Take(numberRecord);
-                    count = (filteredClients.Take(numberRecord)).Count();
+                    count = filteredClients.Take(numberRecord).Count();
+
+                    if (count == filteredClients.Count)
+                    {
+                        NextBtn.IsEnabled = false;
+                        PreviousBtn.IsEnabled = false;
+                    }
+                    else
+                        NextBtn.IsEnabled = true;
+
                     CountRecTB.Text = $"{count} из {filteredClients.Count}";
-                    NextBtn.IsEnabled = true;
                 } 
                 break;
             }
         }
 
-        private void StatBtn_Click(object sender, RoutedEventArgs e)
+        private void Page_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            NavigationService.Navigate(new TagsDiagram());
+            if (Visibility == Visibility.Visible)
+            {
+                VideoRentalEntities.GetContext().ChangeTracker.Entries().ToList().ForEach(x => x.Reload());
+
+                GenderCB.ItemsSource = Tools.CreateComboBox(VideoRentalEntities.GetContext().Gender.ToList(), new Gender() { GenderName = "Все" });
+                GenderCB.SelectedIndex = 0;
+
+                NumberRecordCB.ItemsSource = new List<string> { "Все", "10", "50", "200" };
+                NumberRecordCB.SelectedIndex = 0; 
+                 
+                ClientsDG.ItemsSource = null;
+                ClientsDG.ItemsSource = VideoRentalEntities.GetContext().Client.ToList();
+                CountRecTB.Text = $"{ClientsDG.Items.Count} из {ClientsDG.Items.Count}";
+            }
+           
         }
     }
 }

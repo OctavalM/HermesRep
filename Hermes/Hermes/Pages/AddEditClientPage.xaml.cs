@@ -25,7 +25,6 @@ namespace Hermes.Pages
     /// </summary>
     public partial class AddEditClientPage : Page
     {
-        public static VideoRentalEntities DB = new VideoRentalEntities();
         private Client contextClient = new Client();
 
         public AddEditClientPage(Client postClient)
@@ -106,18 +105,15 @@ namespace Hermes.Pages
 
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
-            EmailAddressAttribute emailAddressAttribute = new EmailAddressAttribute();
-             Regex regex = new Regex(@"[+7|8]\([0-9]{3}\)[0-9]{3}\-[0-9]{2}\-[0-9]{2}$");
-            
-
+            EmailAddressAttribute emailAddressAttribute = new EmailAddressAttribute(); 
             StringBuilder error = new StringBuilder();
 
             if (string.IsNullOrWhiteSpace(contextClient.Name))
                 error.AppendLine("Введите имя клиента.");
             if (string.IsNullOrWhiteSpace(contextClient.Surname))
                 error.AppendLine("Введите фамилию клиента.");
-            if (!(Regex.IsMatch(contextClient.Surname, "^[А-Я]{1}[а-я]/-[А-Я]{1}[а-я]$")))
-                error.AppendLine("Email введен неправильно.");
+            if (!(Regex.IsMatch(contextClient.Surname, @"^([А-Я]{1}[а-яё]{1,}|[А-Я]{1}[а-яё]{1,}/-[А-Я]{1}[а-яё]{1,})$")))
+                error.AppendLine("Фамилия введена неправильно.");
             if (string.IsNullOrWhiteSpace(contextClient.Patronymic))
                 error.AppendLine("Введите отчество клиента.");
             if (string.IsNullOrWhiteSpace(contextClient.Email))
@@ -126,8 +122,8 @@ namespace Hermes.Pages
                 error.AppendLine("Email введен неправильно.");
             if (string.IsNullOrWhiteSpace(contextClient.PhoneNumber))
                 error.AppendLine("Введите номер телефона клиента.");
-            //if (!(matchTelephone.Success))
-                //error.AppendLine("Номер телефона не соответствует формату +7(XXX)XXX-XX-XX или 8(XXX)XXX-XX-XX.");
+            if (!(Regex.IsMatch(contextClient.PhoneNumber, @"^[0-9-/(/)/+\s]{1,}$")))
+                error.AppendLine("Номер телефона введен неправильно.");
             if (contextClient.BirthDate == null)
                 error.AppendLine("Выберите дату рождения клиента.");
             if (contextClient.Gender == null)

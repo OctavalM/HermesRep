@@ -49,7 +49,7 @@ namespace Hermes
             else
             {
                 var user = VideoRentalEntities.GetContext().User.FirstOrDefault(x => x.Login == login && x.Password == password);
-
+        
                if (user != null)
                {
                    if (RememberCB.IsChecked == true)

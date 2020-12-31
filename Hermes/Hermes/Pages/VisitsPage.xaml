@@ -16,7 +16,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Посещения клиентов"
+        <TextBlock Text="Посещения клиента"
                    FontWeight="Bold"
                    VerticalAlignment="Center"
                    FontSize="18"/>
@@ -55,23 +55,12 @@
                   FontFamily="Arial"
                   IsReadOnly="True">
             <DataGrid.Columns>
+                <DataGridTextColumn
+                    Width="Auto"
+                    Binding="{Binding Id}"
+                    Header="ID" />
                 <DataGridTextColumn Width="Auto"
-                                    Binding="{Binding Id}"
-                                    Header="ID"/>
-                <DataGridTextColumn Width="Auto"
-                                    Binding="{Binding Client.ClientId}"
-                                    Header="ID клиента"/>
-                <DataGridTextColumn Width="Auto"
-                                    Binding="{Binding  Client.Name}"
-                                    Header="Имя клиента"/> 
-                <DataGridTextColumn Width="Auto"
-                                    Binding="{Binding Client.Surname}"
-                                    Header="Фамилия клиента"/>
-                <DataGridTextColumn Width="Auto"
-                                    Binding="{Binding Client.Patronymic}"
-                                    Header="Отчество клиента"/>
-                <DataGridTextColumn Width="Auto"
-                                    Binding="{Binding DateVisit, StringFormat='dd.MM.yyyy'}"
+                                    Binding="{Binding DateVisit, StringFormat='dd.MM.yyyy hh:mm'}"
                                     Header="Дата посещения"/>      
             </DataGrid.Columns>
         </DataGrid>

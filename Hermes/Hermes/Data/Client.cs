@@ -32,8 +32,7 @@ namespace Hermes.Data
         public string Email { get; set; }
         public System.DateTime AddedDate { get; set; }
         public byte[] Photo { get; set; }
-        public int CountVisit { get => Visit.Count; }
-
+        public int CountVisit { get => Visit.Count; } 
         public DateTime? LastDateVisit
         {
             get
@@ -44,6 +43,7 @@ namespace Hermes.Data
                 return Visit.OrderBy(x => x.DateVisit).LastOrDefault().DateVisit;
             }
         }
+
         public virtual Gender Gender { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClientTag> ClientTag { get; set; }

@@ -95,10 +95,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\TagsDiagram.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Pages\VisitsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -151,16 +147,12 @@
     <Compile Include="Data\Visit.cs">
       <DependentUpon>VideoRentalModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="MyTools\Paging.cs" />
     <Compile Include="MyTools\Tools.cs" />
     <Compile Include="Pages\AddEditClientPage.xaml.cs">
       <DependentUpon>AddEditClientPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\ClientsPage.xaml.cs">
       <DependentUpon>ClientsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\TagsDiagram.xaml.cs">
-      <DependentUpon>TagsDiagram.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\VisitsPage.xaml.cs">
       <DependentUpon>VisitsPage.xaml</DependentUpon>

@@ -21,7 +21,8 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         
-        <TextBlock Text="Редактирование/изменение данных клиента"
+        <TextBlock x:Name="TitlePageTB"
+                   Text="Редактирование/изменение данных клиента"
                    FontWeight="Bold" 
                    Grid.ColumnSpan="2"
                    VerticalAlignment="Center" 
@@ -29,8 +30,7 @@
 
         <StackPanel Grid.RowSpan="2" 
                     Grid.Row="1"
-                    Margin="20,10,0,0"
-                    VerticalAlignment="Top"
+                    Margin="0,10,0,0"
                     Orientation="Vertical">
             <StackPanel Margin="0,0,0,10" 
                         Orientation="Horizontal">
@@ -155,8 +155,7 @@
             <ListView 
                 x:Name="TagsLV"
                 Width="150"
-                Height="120"
-                ItemsSource="{Binding ClientTag}">
+                Height="120" >
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Label Background="{Binding Tag.Color}" Content="{Binding Tag.TagName}" />

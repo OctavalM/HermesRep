@@ -15,7 +15,7 @@ namespace Hermes.Data
     
     public partial class VideoRentalEntities : DbContext
     {
-        private static VideoRentalEntities _context;
+        private static VideoRentalEntities _context; 
 
         public VideoRentalEntities()
             : base("name=VideoRentalEntities")

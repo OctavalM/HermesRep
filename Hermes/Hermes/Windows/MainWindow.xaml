@@ -22,13 +22,11 @@
         <Grid Background="#FFBACBD2">
             <StackPanel Orientation="Horizontal"
                         Margin="20,0,0,0">
-                <Image HorizontalAlignment="Left"
-                       VerticalAlignment="Center"
+                <Image VerticalAlignment="Center"
                        RenderOptions.BitmapScalingMode="Fant"
                        Source="/Images/VHS.png"/>
                 
                 <TextBlock Margin="10,0,0,0"
-                           HorizontalAlignment="Left"
                            VerticalAlignment="Center"
                            FontSize="18"
                            FontWeight="Bold"
